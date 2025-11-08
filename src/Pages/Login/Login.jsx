@@ -1,11 +1,47 @@
-import React from "react";
-import { Link } from "react-router";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router";
 import styled from "styled-components";
+import { AuthContext } from "../../AuthContext/AuthContext";
+import { toast } from "react-toastify";
+ // adjust path if needed
+
 
 const Login = () => {
+  const { signInWithEmail, signInWithGoogle } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // 🔐 Email/password login
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await signInWithEmail(email, password);
+      toast.success("Login successful");
+      navigate("/");
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+  // 🔵 Google login
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithGoogle();
+      toast.success("Google login successful");
+      navigate("/");
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
   return (
     <StyledWrapper className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-slate-800 px-4">
-      <div className="w-full max-w-md bg-base-100 p-8 rounded-lg shadow-lg">
+      <form
+        onSubmit={handleLogin}
+        className="w-full max-w-md bg-base-100 p-8 rounded-lg shadow-lg"
+      >
         <h2 className="text-2xl font-bold text-center mb-6 text-primary">
           Login to HabitTracker
         </h2>
@@ -13,7 +49,12 @@ const Login = () => {
         {/* Animated Email Input */}
         <div className="mb-6">
           <div className="form-control">
-            <input type="email" required />
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <label>
               {"Email".split("").map((char, i) => (
                 <span key={i} style={{ transitionDelay: `${i * 50}ms` }}>
@@ -27,7 +68,12 @@ const Login = () => {
         {/* Animated Password Input */}
         <div className="mb-6">
           <div className="form-control">
-            <input type="password" required />
+            <input
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <label>
               {"Password".split("").map((char, i) => (
                 <span key={i} style={{ transitionDelay: `${i * 50}ms` }}>
@@ -39,10 +85,16 @@ const Login = () => {
         </div>
 
         {/* Login Button */}
-        <button className="btn btn-primary w-full mb-4">Login</button>
+        <button type="submit" className="btn btn-primary w-full mb-4">
+          Login
+        </button>
 
         {/* Google Login */}
-        <button className="btn btn-outline w-full mb-6 flex items-center justify-center gap-2">
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          className="btn btn-outline w-full mb-6 flex items-center justify-center gap-2"
+        >
           <img
             src="https://www.svgrepo.com/show/475656/google-color.svg"
             alt="Google"
@@ -61,7 +113,7 @@ const Login = () => {
             Register here
           </Link>
         </p>
-      </div>
+      </form>
     </StyledWrapper>
   );
 };
