@@ -99,11 +99,20 @@ const NavBar = () => {
           ) : !user ? (
             <div className="flex gap-2 items-center">
               <StyledWrapper>
-                <Link to="/login">
-                  <button>
+                <div className="flex gap-4">
+                  
+                 <Link to="/login">
+                  <button >
                     <span>Login</span>
                   </button>
                 </Link>
+                <Link to="/register">
+                  <button>
+                    <span>SIgnup</span>
+                  </button>
+                </Link> 
+                </div>
+                
               </StyledWrapper>
             </div>
           ) : (
