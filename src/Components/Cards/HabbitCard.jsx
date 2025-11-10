@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import './Button.css';
+import "./Button.css";
 
 const HabbitCard = ({ habits }) => {
   const navigate = useNavigate();
@@ -11,7 +11,6 @@ const HabbitCard = ({ habits }) => {
 
   return (
     <section className="py-12 px-6">
-      
       <div className="flex flex-wrap justify-center gap-8">
         {habits.map((habit, index) => (
           <div
@@ -37,7 +36,10 @@ const HabbitCard = ({ habits }) => {
                 Creator: {habit.user?.name}
               </p>
             )}
-            <button onClick={() => handleViewDetails(habit._id || index)} className="btnCus">
+            <button
+              onClick={() => handleViewDetails(habit._id)}
+              className="btnCus"
+            >
               View Details
             </button>
           </div>
