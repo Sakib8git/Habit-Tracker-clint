@@ -6,7 +6,8 @@ import { AuthContext } from "../../AuthContext/AuthContext";
 
 const HabitDetails = () => {
   const { user } = use(AuthContext);
-
+  // const uesrName = user.displayName;
+  // console.log();
   const { id } = useParams();
   const [habit, setHabit] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -72,10 +73,10 @@ const HabitDetails = () => {
     category,
     currentStreak,
     completionHistory,
-
+     user: creator,
     createdAt,
   } = habit;
-
+console.log(habit);
   const completedDays = completionHistory?.length || 0;
   const progressPercent = Math.min((completedDays / 30) * 100, 100).toFixed(0);
   const today = new Date().toISOString().split("T")[0];
@@ -127,7 +128,7 @@ const HabitDetails = () => {
           />
           <div className="text-left">
             <p className="text-sm font-semibold text-gray-800">
-              Created by: {user?.name || "Unknown"}
+              Created by: {creator.name || "Unknown"}
             </p>
             <p className="text-xs text-gray-500">
               Started on: {new Date(createdAt).toLocaleDateString()}

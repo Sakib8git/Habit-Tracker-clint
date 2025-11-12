@@ -108,7 +108,7 @@
   max-width: 420px;
   padding: 2rem;
   border-radius: 12px;
-  background: rgb(0, 0, 0);
+  background: rgba(26, 26, 26, 0.794);
   box-shadow: 0 10px 30px rgba(2, 6, 23, 0.6);
   backdrop-filter: blur(6px);
   color: #e6eef8;
@@ -203,4 +203,3 @@
   transform: translateY(-30px);
 }
 
-/* log in */

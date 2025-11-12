@@ -14,6 +14,9 @@ const Footer = () => {
           <p className="text-sm text-gray-600">
             Helping you build better habits with the right tools and support.
           </p>
+          <p className="text-sm text-gray-600">
+           Create, track, and manage daily habits to build streaks and boost productivity.
+          </p>
         </div>
 
         {/* Contact Details */}

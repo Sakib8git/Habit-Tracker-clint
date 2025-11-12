@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 const Feedback = () => {
   const [entry, setEntry] = useState("");
@@ -10,6 +11,7 @@ const Feedback = () => {
     console.log("Mood:", mood);
     setEntry("");
     setMood("🙂");
+    toast.success("😊 We respect your valuable feedback");
   };
 
   return (
@@ -62,10 +64,9 @@ const Feedback = () => {
           Send Your Feedback
         </button>
       </form>
+      <ToastContainer></ToastContainer>
     </section>
   );
 };
 
 export default Feedback;
-
-

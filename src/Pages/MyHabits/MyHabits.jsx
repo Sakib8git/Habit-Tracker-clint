@@ -4,6 +4,8 @@ import AnimatedBackground from "../../Components/AnimatedBackground/AnimatedBack
 import { AuthContext } from "../../AuthContext/AuthContext";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // ✅ MUST HAVE
 
 const MyHabits = () => {
   const { user } = useContext(AuthContext);
@@ -62,31 +64,32 @@ const MyHabits = () => {
   };
 
   const handleComplete = async (habitId) => {
+    console.log(habitId);
     try {
-      // habitId dhore / bakend er /complete e Patch kore data update korlam
       const res = await fetch(
         `https://habit-tracker-server-teal.vercel.app/habits/${habitId}/complete`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${user.accessToken}`, // ✅ Capital A
           },
-          body: JSON.stringify({ userEmail: user.email }),
         }
       );
 
       const data = await res.json();
-      // agee up kora takle eida dekhabe---- vagooooooo
+
+      if (!res.ok) {
+        toast.error(data.message || data.error || "Something went wrong.");
+        return;
+      }
+
       if (data.alreadyCompleted) {
-        Swal.fire(
-          "⛔ Already Completed",
-          "You’ve already completed this habit today.",
-          "info"
+        toast.info(
+          "⛔ Already Completed. You’ve already completed this habit today."
         );
-        // na thakle kore dao
       } else if (data.success) {
-        Swal.fire("✅ Completed!", "Habit marked as complete.", "success");
-        // updter korlo--------------------
+        toast.success("✅ Completed! Habit marked as complete.");
         setHabits((prev) =>
           prev.map((h) =>
             h._id === habitId ? { ...h, currentStreak: data.updatedStreak } : h
@@ -149,6 +152,7 @@ const MyHabits = () => {
 
                       <button
                         onClick={() => handleComplete(habit._id)}
+                        // onClick={ handleComplete}
                         className="btn btn-sm bg-green-500 text-white hover:bg-green-600 rounded-full"
                       >
                         Mark Complete
@@ -161,6 +165,7 @@ const MyHabits = () => {
           </div>
         )}
       </div>
+      <ToastContainer></ToastContainer>
     </div>
   );
 };

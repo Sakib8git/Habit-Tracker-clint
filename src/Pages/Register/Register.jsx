@@ -2,11 +2,13 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../AuthContext/AuthContext";
-import "../../App.css"; // ✅ Import global styles
+import "../../App.css";
+import Button from "../../Custom Button/Button";
 
 const Register = () => {
-  const { createWithEmail, signInWithGoogle, updateUserProfile } =
+  const { createWithEmail, signInWithGoogle, updateUserProfile, logOut } =
     useContext(AuthContext);
+
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -58,7 +60,9 @@ const Register = () => {
     setSubmitting(true);
     try {
       const res = await createWithEmail(email, password);
-      toast.success("Registration successful");
+
+      // ✅ Show success toast
+      toast.success("✅ Registration successful! Please login to continue.");
 
       if (typeof updateUserProfile === "function") {
         try {
@@ -67,6 +71,11 @@ const Register = () => {
           console.error("update profile error:", updErr);
           toast.info("Registered but profile update failed");
         }
+      }
+
+      // ✅ Force logout so navbar doesn't show user until manual login
+      if (typeof logOut === "function") {
+        await logOut();
       }
 
       navigate("/login");
@@ -174,9 +183,9 @@ const Register = () => {
           </label>
         </div>
 
-        <button className="primary" type="submit" disabled={submitting}>
+        <Button type="submit" disabled={submitting}>
           {submitting ? "Registering..." : "Register"}
-        </button>
+        </Button>
 
         <button type="button" className="outline" onClick={handleGoogle}>
           <img

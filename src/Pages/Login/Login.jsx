@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
-import styled from "styled-components";
 import { AuthContext } from "../../AuthContext/AuthContext";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useNavigate, Link } from "react-router";
+import { FaEye } from "react-icons/fa";
+import { IoEyeOff } from "react-icons/io5";
+import Button from "../../Custom Button/Button";
 
 const Login = () => {
   const { signInWithEmail, signInWithGoogle } = useContext(AuthContext);
@@ -10,6 +12,7 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false); 
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -33,216 +36,85 @@ const Login = () => {
   };
 
   return (
-    <StyledWrapper>
-      <div className="container">
-        <div className="login-box">
-          <h2>Login</h2>
-          <form onSubmit={handleLogin}>
-            <div className="input-box">
+    <div className="min-h-screen flex items-center justify-center  py-20 px-3">
+      <title>Login</title>
+      <div className="w-full max-w-md bg-gray-600 rounded-lg shadow-lg p-8">
+        <h1 className="text-3xl font-bold text-center text-white mb-6">
+          Login to <span className="text-green-600">Habit-Tracker</span>
+        </h1>
+
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div>
+            <label className="block text-sm mb-1 text-gray-300">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm mb-1 text-gray-300">Password</label>
+            <div className="relative">
               <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <label>Email</label>
-            </div>
-            <div className="input-box">
-              <input
-                type="password"
-                required
+                type={show ? "text" : "password"}
+                name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2 rounded-md bg-gray-900 text-white pr-10 focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Enter your password"
+                required
               />
-              <label>Password</label>
+              <span
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xl cursor-pointer text-gray-400"
+                onClick={() => setShow(!show)}
+              >
+                {show ? <FaEye /> : <IoEyeOff />}
+              </span>
             </div>
-            <div className="forgot-pass">
-              <Link to="/reset">Forgot your password?</Link>
-            </div>
-            <button className="btn" type="submit">
-              Login
-            </button>
-            <button
-              type="button"
-              className="btn google"
-              onClick={handleGoogleLogin}
-            >
-              <img
-                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                alt="Google"
-                className="icon"
-              />
-              Continue with Google
-            </button>
-            <div className="signup-link">
-              <Link to="/register">Sign Up</Link>
-            </div>
-          </form>
-        </div>
+          </div>
 
-        {/* Glowing ring animation */}
-        {[...Array(50)].map((_, i) => (
-          <span key={i} style={{ "--i": i }} />
-        ))}
+          <div className="flex justify-between items-center text-sm">
+            <Link
+              to="/reset"
+              className="text-green-400 hover:text-blue-400"
+            >
+              Forgot password?
+            </Link>
+          </div>
+
+          <Button type="submit">Login</Button>
+        </form>
+
+        <div className="my-6 text-center text-gray-400">OR</div>
+
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          className="w-full flex items-center justify-center gap-2 py-2 bg-gray-700 hover:bg-gray-900 rounded-md text-white transition"
+        >
+          <img
+            src="https://www.svgrepo.com/show/475656/google-color.svg"
+            alt="Google"
+            className="w-5 h-5"
+          />
+          Continue with Google
+        </button>
+
+        <p className="text-sm text-center text-gray-300 mt-4">
+          Don’t have an account?{" "}
+          <Link to="/register" className="text-green-400 hover:text-blue-400">
+            Register
+          </Link>
+        </p>
       </div>
-    </StyledWrapper>
+      <ToastContainer />
+    </div>
   );
 };
 
 export default Login;
-
-const StyledWrapper = styled.div`
-  background: rgb(224, 242, 254);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .container {
-  position: relative;
-  width: 500px;
-  height: 500px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-.container span {
-  position: absolute;
-  left: 0;
-  width: 36px;
-  height: 6px;
-  background: #2c4766;
-  border-radius: 80px;
-  transform-origin: 250px;
-  transform: rotate(calc(var(--i) * (360deg / 50)));
-  animation: blink 3s linear infinite;
-  animation-delay: calc(var(--i) * (3s / 50));
-}
-
-  @keyframes blink {
-    0% {
-      background: #0ef;
-    }
-    25% {
-      background: #2c4766;
-    }
-  }
-
-  .login-box {
-    position: absolute;
-    width: 80%;
-    max-width: 300px;
-    z-index: 1;
-    padding: 20px;
-    border-radius: 20px;
-    background: #1f293a;
-  }
-
-  h2 {
-    font-size: 1.8em;
-    color: #0ef;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-
-  form {
-    width: 100%;
-    padding: 0 10px;
-  }
-
-  .input-box {
-    position: relative;
-    margin: 15px 0;
-  }
-
-  input {
-    width: 100%;
-    height: 45px;
-    background: transparent;
-    border: 2px solid #2c4766;
-    outline: none;
-    border-radius: 40px;
-    font-size: 1em;
-    color: #fff;
-    padding: 0 15px;
-    transition: 0.5s ease;
-  }
-
-  input:focus {
-    border-color: #0ef;
-  }
-
-  input[value]:not([value=""]) ~ label,
-  input:focus ~ label {
-    top: -10px;
-    font-size: 0.8em;
-    background: #1f293a;
-    padding: 0 6px;
-    color: #0ef;
-  }
-
-  label {
-    position: absolute;
-    top: 50%;
-    left: 15px;
-    transform: translateY(-50%);
-    font-size: 1em;
-    pointer-events: none;
-    transition: 0.5s ease;
-    color: #fff;
-  }
-
-  .forgot-pass {
-    margin: -10px 0 10px;
-    text-align: center;
-  }
-
-  .forgot-pass a {
-    font-size: 0.85em;
-    color: #fff;
-    text-decoration: none;
-  }
-
-  .btn {
-    width: 100%;
-    height: 45px;
-    background: #0ef;
-    border: none;
-    outline: none;
-    border-radius: 40px;
-    cursor: pointer;
-    font-size: 1em;
-    color: #1f293a;
-    font-weight: 600;
-    margin-top: 10px;
-  }
-
-  .btn.google {
-    background: #fff;
-    color: #1f293a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .icon {
-    width: 18px;
-    height: 18px;
-  }
-
-  .signup-link {
-    margin: 10px 0;
-    text-align: center;
-  }
-
-  .signup-link a {
-    font-size: 1em;
-    color: #0ef;
-    text-decoration: none;
-    font-weight: 600;
-  }
-`;
