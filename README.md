@@ -23,7 +23,8 @@ HabitTracker is a habit tracking application designed to help users build and ma
 
 This project empowers users to create custom habits, track daily completion, and visualize progress through streaks and badges. Built with React and Express, it ensures fast performance, responsive design, and secure data handling.
 
-<img width="1411" height="907" alt="image" src="https://github.com/user-attachments/assets/0b2e56c8-cfa5-4ab1-9e90-bc73a9e75ef9" />
+<!-- <img width="1411" height="907" alt="image" src="https://github.com/user-attachments/assets/0b2e56c8-cfa5-4ab1-9e90-bc73a9e75ef9" /> -->
+<img width="1905" height="3119" alt="habit-tracket netlify app_" src="https://github.com/user-attachments/assets/d05c2c0c-0895-4cb5-b93c-2b845ef26763" />
 
 
 ---
